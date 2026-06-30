@@ -1,0 +1,8 @@
+# Environment variables
+.env
+
+# Other env files
+.env.local
+.env.development
+.env.production
+.env.test

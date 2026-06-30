@@ -1,0 +1,221 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background: #f3f7f5;
+  color: #18221f;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.register-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+  background:
+    radial-gradient(circle at top left, rgba(72, 145, 116, 0.22), transparent 34%),
+    linear-gradient(135deg, #f8fbfa 0%, #e8f0ec 52%, #f4f1ea 100%);
+}
+
+.register-shell {
+  position: relative;
+  width: min(940px, 100%);
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  overflow: hidden;
+  border: 1px solid rgba(24, 34, 31, 0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(24, 34, 31, 0.14);
+}
+
+.login-register-button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  min-height: 36px;
+  border: 1px solid rgba(40, 123, 97, 0.28);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: #ffffff;
+  color: #287b61;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.login-register-button:hover {
+  background: #f3faf7;
+  box-shadow: 0 10px 22px rgba(24, 34, 31, 0.12);
+  transform: translateY(-1px);
+}
+
+.login-register-button:active {
+  transform: translateY(0);
+}
+
+.login-register-button:focus-visible {
+  outline: 3px solid rgba(40, 123, 97, 0.22);
+  outline-offset: 3px;
+}
+
+.register-intro {
+  display: flex;
+  min-height: 460px;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 44px;
+  color: #ffffff;
+  background:
+    linear-gradient(rgba(14, 52, 44, 0.8), rgba(14, 52, 44, 0.72)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80");
+  background-position: center;
+  background-size: cover;
+}
+
+.register-eyebrow {
+  width: fit-content;
+  margin: 0;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.register-intro h1 {
+  max-width: 360px;
+  margin: 0;
+  font-size: clamp(2.1rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.register-intro p:last-child {
+  max-width: 320px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 52px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #25332e;
+}
+
+.form-field input {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid #cfdad5;
+  border-radius: 8px;
+  outline: none;
+  padding: 0 15px;
+  background: #fbfdfc;
+  color: #17211e;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.form-field input::placeholder {
+  color: #83908b;
+}
+
+.form-field input:focus {
+  border-color: #287b61;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(40, 123, 97, 0.14);
+}
+
+.register-button {
+  min-height: 52px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: #287b61;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: 0;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.register-button:hover {
+  background: #20684f;
+  box-shadow: 0 14px 28px rgba(40, 123, 97, 0.22);
+  transform: translateY(-1px);
+}
+
+.register-button:active {
+  transform: translateY(0);
+}
+
+.register-button:focus-visible {
+  outline: 3px solid rgba(40, 123, 97, 0.28);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .register-page {
+    align-items: start;
+    padding: 18px;
+  }
+
+  .register-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .register-intro {
+    min-height: 260px;
+    padding: 30px;
+  }
+
+  .register-form {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 420px) {
+  .register-page {
+    padding: 0;
+  }
+
+  .register-shell {
+    min-height: 100vh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .register-intro,
+  .register-form {
+    padding: 24px;
+  }
+}
