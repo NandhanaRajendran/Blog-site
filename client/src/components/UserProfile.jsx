@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useToast } from './ToastContext';
 
 
 /**
@@ -10,6 +11,7 @@ import { useLocation } from 'react-router-dom';
  */
 function UserProfile() {
     const location = useLocation();
+    const showToast = useToast();
     
     // Default fallback to prevent routing context exceptions
     const email = location.state?.email || "staff@meridian.com";
@@ -30,19 +32,13 @@ function UserProfile() {
     const categories = ['All', 'Coding', 'Sports', 'Music', 'Education'];
 
     // UI Feedback & Interactive Modal States
-    const [toast, setToast] = useState('');
-    const [modalType, setModalType] = useState(null); // 'profile-edit' | 'create-blog' | 'edit-blog' | 'view-blog' | 'confirm'
+    const [modalType, setModalType] = useState(null); 
     const [activeBlog, setActiveBlog] = useState(null);
 
     // Form Fields
     const [profileForm, setProfileForm] = useState({ name: '', email: '', password: '' });
     const [blogForm, setBlogForm] = useState({ title: '', category: 'Coding', content: '' });
     const [selectedFile, setSelectedFile] = useState(null);
-
-    const showToast = (message) => {
-        setToast(message);
-        setTimeout(() => setToast(''), 3000);
-    };
 
     // Load initial user details and workspace metrics
     const fetchUserProfile = async () => {
@@ -75,6 +71,7 @@ function UserProfile() {
             
         } catch (err) {
             console.error("Error retrieving author's articles:", err);
+            showToast("Failed to load your articles.");
         }
     };
 
@@ -85,6 +82,7 @@ function UserProfile() {
             setAllBlogs(globalRes.data.content || []);
         } catch (err) {
             console.error("Error retrieving general articles:", err);
+            showToast("Failed to load global articles.");
         }
     };
 
@@ -258,6 +256,7 @@ function UserProfile() {
             showToast("Reaction recorded!");
         } catch (err) {
             console.error("Error liking:", err);
+            showToast("Unable to record reaction.");
         }
     };
 
@@ -269,6 +268,7 @@ function UserProfile() {
             showToast(!currentStatus ? "Added to Meridian Editor's Choice." : "Removed from Editor's Choice.");
         } catch (err) {
             console.error("Toggle featured error:", err);
+            showToast("Unable to update Editor's Choice status.");
         }
     };
 
@@ -295,6 +295,7 @@ function UserProfile() {
         } catch (err) {
             console.error("Could not fetch author's writings:", err);
             setActiveAuthorBlogs([]);
+            showToast("Failed to load this author's articles.");
         }
     };
 
@@ -383,7 +384,7 @@ function UserProfile() {
                         className={`workspace-tab-btn ${activeTab === 'authors' ? 'active' : ''}`}
                         onClick={() => setActiveTab('authors')}
                     >
-                        Guild Directory
+                        Find Authors
                     </button>
                 </div>
 
@@ -832,12 +833,6 @@ function UserProfile() {
                 </div>
             )}
 
-            {/* Toast System Alert */}
-            {toast && (
-                <div className="profile-toast">
-                    {toast}
-                </div>
-            )}
         </div>
     );
 }

@@ -1,21 +1,17 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "./ToastContext";
 
 function SingleBlog() {
     const { id: blogId } = useParams();
     const navigate = useNavigate();
+    const showToast = useToast();
 
     const [blog, setBlog] = useState(null);
     const [relatedBlogs, setRelatedBlogs] = useState([]);
-    const [toastMessage, setToastMessage] = useState('');
     const [loading, setLoading] = useState(true);
     const fetchedBlogId = useRef(null);
-
-    const showToast = (message) => {
-        setToastMessage(message);
-        setTimeout(() => setToastMessage(''), 3000);
-    };
 
     useEffect(() => {
         if (!blogId || fetchedBlogId.current === blogId) {
@@ -38,7 +34,10 @@ function SingleBlog() {
                             const list = res.data.content || res.data || [];
                             setRelatedBlogs(list.filter(item => item._id !== blogId).slice(0, 3));
                         })
-                        .catch(err => console.error("Error fetching related articles", err));
+                        .catch((err) => {
+                            console.error("Error fetching related articles", err);
+                            showToast("Could not load related articles.");
+                        });
                 }
             })
             .catch((err) => {
@@ -47,18 +46,22 @@ function SingleBlog() {
                 showToast("Could not retrieve the full article. Showing draft view.");
                 setLoading(false);
             });
-    }, [blogId]);
+    }, [blogId, showToast]);
 
     const handleIncrementLike = () => {
-    axios.put(`http://localhost:5000/api/incrementLike/${blogId}`)
-        .then(() => {
-            setBlog(prev =>
-                prev
-                    ? { ...prev, likeCount: (prev.likeCount || 0) + 1 }
-                    : null
-            );
-        });
-};
+        axios.put(`http://localhost:5000/api/incrementLike/${blogId}`)
+            .then(() => {
+                setBlog(prev =>
+                    prev
+                        ? { ...prev, likeCount: (prev.likeCount || 0) + 1 }
+                        : null
+                );
+            })
+            .catch((err) => {
+                console.error("Like error:", err);
+                showToast("Unable to record reaction.");
+            });
+    };
 
     const handleBack = () => {
         navigate('/');
@@ -255,12 +258,6 @@ function SingleBlog() {
                 </div>
             </footer>
 
-            {/* Toast system alerts */}
-            {toastMessage && (
-                <div className="state-toast">
-                    {toastMessage}
-                </div>
-            )}
         </div>
     );
 }

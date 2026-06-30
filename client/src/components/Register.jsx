@@ -1,9 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from "axios";
+import { useToast } from './ToastContext';
 console.log("Register Rendered");
 
 function Register() {
+    const showToast = useToast();
 
     const [user,setUser] = useState({
         name:'',
@@ -25,9 +27,11 @@ function Register() {
                 'http://localhost:5000/api/createUser',user
             )
             console.log(response.data);
+            showToast("Account created successfully.");
             
         } catch (err) {
             console.log(err);
+            showToast("Unable to create account.");
             
         }
         

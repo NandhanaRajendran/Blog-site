@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useToast } from './ToastContext';
 
 function AdminProfile() {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [loading, setLoading] = useState(true);
-    const [toastMessage, setToastMessage] = useState('');
+    const showToast = useToast();
 
     const [dashboardStats, setDashboardStats] = useState(null);
     const [usersList, setUsersList] = useState([]);
@@ -19,11 +20,6 @@ function AdminProfile() {
         email: '',
         message: ''
     });
-
-    const showToast = useCallback((message) => {
-        setToastMessage(message);
-        setTimeout(() => setToastMessage(''), 3500);
-    }, []);
 
     const loadAllDatabaseInfo = useCallback(async () => {
         setLoading(true);
@@ -484,6 +480,8 @@ function AdminProfile() {
                                                             await axios.put(`http://localhost:5000/api/dismissReport/${report._id}`);
                                                         } catch (err) {
                                                             console.error("Dismiss report request failed", err);
+                                                            showToast("Unable to dismiss report.");
+                                                            return;
                                                         }
                                                         setReportedBlogs(prev => prev.filter(r => r._id !== report._id));
                                                         showToast("Report dismissed.");
@@ -531,12 +529,6 @@ function AdminProfile() {
                 </div>
             )}
 
-            {/* Float notification toast */}
-            {toastMessage && (
-                <div className="admin-toast">
-                    {toastMessage}
-                </div>
-            )}
         </div>
     );
 }

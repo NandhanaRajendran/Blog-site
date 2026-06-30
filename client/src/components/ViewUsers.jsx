@@ -2,9 +2,11 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
+import { useToast } from './ToastContext';
 
 function ViewUsers() {
 
+  const showToast = useToast();
   const [users, setUser] = useState([]);
   const [email,setEmail] = useState('');
   const [age,setAge] = useState(0);
@@ -17,6 +19,7 @@ function ViewUsers() {
         
       }).catch((err) => {
         console.log(err);
+        showToast("Unable to load users.");
 
       })
 
@@ -31,6 +34,7 @@ function ViewUsers() {
       console.log([response.data.message]);
     }) .catch((err) => {
       console.log(err);
+      showToast("Unable to find that user.");
       
     })
   }
@@ -56,6 +60,7 @@ function ViewUsers() {
       console.log([response.data.message]);
     }) .catch((err) => {
       console.log(err);
+      showToast("Unable to delete that user.");
       
     })
   }

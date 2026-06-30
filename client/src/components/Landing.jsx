@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useToast } from './ToastContext';
 
 function Landing() {
     const [blogs, setBlog] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [category, setCategory] = useState('All');
+    const showToast = useToast();
     const navigate = useNavigate();
     
     const categories = ['All', 'Coding', 'Sports', 'Music', 'Education'];
-
-
 
     // Fetch all blogs on mount
     useEffect(() => {
@@ -19,9 +19,10 @@ function Landing() {
                 setBlog(response.data.content);
             }).catch((err) => {
                 console.error("Fetch all error:", err);
+                showToast("Unable to load blogs.");
 
             });
-    }, []);
+    }, [showToast]);
 
 
     // Search Blogs
@@ -33,6 +34,7 @@ function Landing() {
                 setCategory('All');
             }).catch((err) => {
                 console.error("Search error:", err);
+                showToast("Unable to search blogs.");
 
             });
     }
@@ -46,13 +48,20 @@ function Landing() {
                     setBlog(response.data.content);
                 }).catch((err) => {
                     console.error("Fetch all error:", err);
+                    showToast("Unable to load blogs.");
                 });
         } else {
             axios.get(`http://localhost:5000/api/viewByCategory/${selectedCategory}`)
                 .then((response) => {
-                    setBlog(response.data.content);
+                    const categoryBlogs = response.data.content || [];
+                    setBlog(categoryBlogs);
+                    if (categoryBlogs.length === 0) {
+                        showToast("No blogs are found.");
+                    }
                 }).catch((err) => {
-                    console.error("Filter error:", err);
+                    console.error("Category filter error:", err);
+                    setBlog([]);
+                    showToast("No blogs are found.");
 
                 });
         }
@@ -71,6 +80,7 @@ function Landing() {
 
             }).catch((err) => {
                 console.error("Like error:", err);
+                showToast("Unable to record reaction.");
 
 
             });
@@ -347,7 +357,6 @@ function Landing() {
                     <p>Designed for responsive web viewports.</p>
                 </div>
             </footer>
-
 
         </div>
     );

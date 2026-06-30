@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useToast } from './ToastContext';
 console.log("Login Rendered");
 
 function Login() {
 
     const navigate = useNavigate();
+    const showToast = useToast();
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -42,10 +44,14 @@ function Login() {
                 }
 
             }
+            else {
+                showToast("Invalid email or password.");
+            }
 
 
         } catch (err) {
             console.log(err);
+            showToast("Unable to login. Please try again.");
 
         }
 
