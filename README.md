@@ -65,8 +65,8 @@ Blog-Platform/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/NandhanaRajendran/<repository-name>.git
-cd <repository-name>
+git clone https://github.com/NandhanaRajendran/Blog-site.git
+cd Blog-site
 ```
 
 ### Install Frontend Dependencies
