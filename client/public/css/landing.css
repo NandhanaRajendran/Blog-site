@@ -21,7 +21,7 @@ font-weight: 500;
 letter-spacing: -0.02em;
 }
 
-/* Navbar Style (Meridian Editorial Style) */
+/* Navbar Style (Tàksha Editorial Style) */
 .nav-bar {
 display: flex;
 justify-content: space-between;
@@ -46,6 +46,34 @@ font-size: 2.1rem;
 font-weight: 600;
 text-decoration: none;
 letter-spacing: -0.03em;
+}
+
+.brand-logo {
+display: inline-flex;
+flex-direction: column;
+align-items: center;
+gap: 2px;
+line-height: 1;
+}
+
+.brand-logo-button {
+cursor: pointer;
+}
+
+.brand-logo img {
+display: block;
+width: auto;
+height: 48px;
+object-fit: contain;
+}
+
+.brand-logo span {
+color: #6b4a2a;
+font-size: 0.64rem;
+font-weight: 700;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+white-space: nowrap;
 }
 
 /* Inline horizontal search */
@@ -614,6 +642,31 @@ font-size: 1.8rem;
 font-weight: 600;
 margin-bottom: 15px;
 color: #111;
+}
+
+.footer-logo {
+display: inline-flex;
+flex-direction: column;
+align-items: center;
+gap: 3px;
+line-height: 1;
+margin-bottom: 16px;
+}
+
+.footer-logo img {
+display: block;
+width: auto;
+height: 58px;
+object-fit: contain;
+}
+
+.footer-logo span {
+color: #6b4a2a;
+font-size: 0.68rem;
+font-weight: 700;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+white-space: nowrap;
 }
 
 .footer-brand p {

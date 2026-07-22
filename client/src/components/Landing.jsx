@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useToast } from './ToastContext';
+import logo from '../assets/logo.png';
 
 function Landing() {
     const [blogs, setBlog] = useState([]);
@@ -106,7 +107,13 @@ function Landing() {
             {/* Navbar matching .nav-bar */}
             <div className="nav-bar">
                 <div className="logo-container">
-                    <h1 className="logo" style={{ cursor: 'pointer' }} onClick={() => viewByCategory('All')}>Meridian</h1>
+                    <div
+                        className="brand-logo brand-logo-button"
+                        onClick={() => viewByCategory('All')}
+                    >
+                        <img src={logo} alt="Tàksha" />
+                        <span>Carving ideas. Crafting impacts.</span>
+                    </div>
 
                     {/* Integrated search form matching layout */}
                     <form className="search-container" onSubmit={searchBlog}>
@@ -307,7 +314,7 @@ function Landing() {
                         <span className="newsletter-tag">Our Letters</span>
                         <h2 className="newsletter-headline">Delivered once a week. No noise.</h2>
                         <p className="newsletter-subtext">
-                            The best of Meridian — raw perspectives, complete research, and authentic storytelling. Delivered straight to your inbox every Sunday morning. No ads.
+                            The best of Tàksha — raw perspectives, complete research, and authentic storytelling. Delivered straight to your inbox every Sunday morning. No ads.
                         </p>
                     </div>
                     <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); console.log('Subscribed!'); }}>
@@ -324,7 +331,10 @@ function Landing() {
             <footer className="premium-footer">
                 <div className="footer-top">
                     <div className="footer-brand">
-                        <h2>Meridian</h2>
+                        <div className="footer-logo">
+                            <img src={logo} alt="Tàksha" />
+                            <span>Carving ideas. Crafting impacts.</span>
+                        </div>
                         <p>An editorial journal exploring art, technology, culture, and the currents molding our generation.</p>
                     </div>
                     <div className="footer-column">
@@ -353,7 +363,7 @@ function Landing() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>© {new Date().getFullYear()} Meridian Magazine. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} Tàksha Magazine. All rights reserved.</p>
                     <p>Designed for responsive web viewports.</p>
                 </div>
             </footer>

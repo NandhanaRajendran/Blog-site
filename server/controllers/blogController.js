@@ -2,7 +2,6 @@ const Blog = require("../models/blogSchema");
 const multer = require("multer");
 const synonyms = require("synonyms");
 
-
 const createBlog = async (req, res) => {
   try {
     const blog = {
@@ -58,7 +57,7 @@ const updateBlog = async (req, res) => {
 
 const viewAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find().populate("user");;
+    const blogs = await Blog.find().populate("user");
     console.log(blogs);
 
     res.status(201).json({
@@ -75,14 +74,11 @@ const viewAllBlogs = async (req, res) => {
   }
 };
 
-
-
-
 const viewByAuthor = async (req, res) => {
   try {
-    console.log('Author id: '+req.params.id);
+    console.log("Author id: " + req.params.id);
 
-    const blogs = await Blog.find({ user: req.params.id }).populate("user");;
+    const blogs = await Blog.find({ user: req.params.id }).populate("user");
     console.log(blogs);
 
     res.status(201).json({
@@ -103,16 +99,16 @@ const viewSingleBlog = async (req, res) => {
   try {
     // const blog = await Blog.find({ _id: req.params.id }).populate("user");
     const blog = await Blog.findByIdAndUpdate(
-    req.params.id,
-    {
+      req.params.id,
+      {
         $inc: {
-            views: 1
-        }
-    },
-    {
-        returnDocument: "after"
-    }
-).populate("user");
+          views: 1,
+        },
+      },
+      {
+        returnDocument: "after",
+      },
+    ).populate("user");
     console.log(blog);
 
     if (!blog) {
@@ -138,7 +134,9 @@ const viewSingleBlog = async (req, res) => {
 
 const viewByCategory = async (req, res) => {
   try {
-    const blogs = await Blog.find({ category: req.params.category }).populate("user");;
+    const blogs = await Blog.find({ category: req.params.category }).populate(
+      "user",
+    );
 
     if (blogs == "") {
       res.json({
@@ -161,13 +159,11 @@ const viewByCategory = async (req, res) => {
   }
 };
 
-
-
 const deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findByIdAndDelete({ _id: req.params.id });
-    console.log('Delete blog action ');
-    
+    console.log("Delete blog action ");
+
     if (!blog) {
       res.json({
         success: false,
@@ -188,9 +184,6 @@ const deleteBlog = async (req, res) => {
     });
   }
 };
-
-
-
 
 const searchBlog = async (req, res) => {
   try {
@@ -278,63 +271,96 @@ const searchBlog = async (req, res) => {
   }
 };
 
-
-
 const incrementLike = async (req, res) => {
-    try {
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { likeCount: 1 } },
+      { returnDocument: "after" },
+    );
 
-        const updatedBlog = await Blog.findByIdAndUpdate(
-            req.params.id,
-            { $inc: { likeCount: 1 } },
-            { returnDocument: 'after' }
-         
-        );
-
-        if (!updatedBlog) {
-            return res.status(404).json({
-                success: false,
-                message: "Blog not found"
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Like updated successfully",
-            content: updatedBlog
-        });
-
-    } catch (err) {
-      console.log(err);
-
-        res.status(500).json({
-            success: false,
-            message: "Like update failed",
-            err: err.message
-        });
+    if (!updatedBlog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
     }
+
+    res.status(200).json({
+      success: true,
+      message: "Like updated successfully",
+      content: updatedBlog,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      success: false,
+      message: "Like update failed",
+      err: err.message,
+    });
+  }
 };
 
+const featureBlog = async (req, res) => {
+  try {
+    const isFeatured = req.body.featured;
 
-const featureBlog = async(req,res)=> {
-    try{
-        const isFeatured = req.body.featured;
-        
-        const updatedFeature = Blog.findByIdAndUpdate(req.params.id,isFeatured);
+    const updatedFeature = await Blog.findByIdAndUpdate(req.params.id, {
+      $set: {
+        featured: isFeatured,
 
-        res.status(201).json({
-            success:true,
-            message:'Blog added to featured',
-            content: updatedFeature
-        })
-    } catch(err) {
-        res.status(500).json({
-            success:false,
-            message:'Feature updation failed',
-            err:err.message
-        })
-    }
-}
+      },
+    });
 
+    res.status(201).json({
+      success: true,
+      message: "Blog added to featured",
+      content: updatedFeature,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Feature updation failed",
+      err: err.message,
+    });
+  }
+};
+
+const reportBlog = async (req, res) => {
+  try {
+
+
+    await Blog.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          reported: true,
+          reportReason: req.body.reportReason
+        },
+        $inc: {
+          reportCount: 1
+        },
+        $push: {
+          reportedBy: req.body.reportedBy
+        }
+      },
+      { new: true }
+    ).populate("user");
+
+    res.status(201).json({
+      success: true,
+      message: "Blog reported",
+      content: updatedBlog,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Report blog failed",
+      err: err.message,
+    });
+  }
+};
 
 const storage = multer.diskStorage({
   destination: function (req, res, callback) {
@@ -359,5 +385,5 @@ module.exports = {
   incrementLike,
   featureBlog,
   viewByAuthor,
-  
+  reportBlog,
 };

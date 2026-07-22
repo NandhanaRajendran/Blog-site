@@ -46,6 +46,9 @@ const blogSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    reportReason: {
+      type:String
+    },
 
     reportedBy: [
       {

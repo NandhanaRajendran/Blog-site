@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {createUser,viewUsers,viewByEmail, deleteByEmail, verifyUser,uploads, findUsers, updateUser} = require('../controllers/userController');
-const { createBlog, updateBlog, viewSingleBlog, deleteBlog, viewByCategory, searchBlog, viewAllBlogs, incrementLike, viewByAuthor,  } = require('../controllers/blogController');
+const { createBlog, updateBlog, viewSingleBlog, deleteBlog, viewByCategory, searchBlog, viewAllBlogs, incrementLike, viewByAuthor, featureBlog, reportBlog,  } = require('../controllers/blogController');
 const { dashboard, suspendUser, activateUser, viewReportedBlogs } = require('../controllers/adminController');
 
 router.post('/createUser',uploads,createUser);
@@ -23,6 +23,8 @@ router.get('/searchBlog',searchBlog);
 router.get('/viewAllBlogs',viewAllBlogs);
 router.put('/incrementLike/:id',incrementLike);
 router.get('/findUsers/:name',findUsers);
+router.put('/featureBlog/:id',featureBlog);
+router.put('/reportBlog/:id',reportBlog);
 
 
 router.get('/admin/dashboard',dashboard)

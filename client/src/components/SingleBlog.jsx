@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "./ToastContext";
+import logo from '../assets/logo.png';
 
 function SingleBlog() {
     const { id: blogId } = useParams();
@@ -100,7 +101,10 @@ function SingleBlog() {
             {/* Nav Header */}
             <div className="nav-bar">
                 <div className="logo-container">
-                    <h1 className="logo" style={{ cursor: 'pointer' }} onClick={handleBack}>Meridian</h1>
+                    <div className="brand-logo brand-logo-button" onClick={handleBack}>
+                        <img src={logo} alt="Tàksha" />
+                        <span>Carving ideas. Crafting impacts.</span>
+                    </div>
                 </div>
                 <div className="nav-buttons">
                     <button className="nav-btn" onClick={handleBack}>← Back to Journal</button>
@@ -170,7 +174,7 @@ function SingleBlog() {
                     {currentBlog.content}
                 </div>
 
-                {/* Pull Quote styled precisely in Meridian theme */}
+                {/* Pull Quote styled precisely in Tàksha theme */}
                 <blockquote className="single-blog-pullquote">
                     "{dynamicPullQuote}"
                 </blockquote>
@@ -224,7 +228,10 @@ function SingleBlog() {
             <footer className="premium-footer">
                 <div className="footer-top">
                     <div className="footer-brand">
-                        <h2>Meridian</h2>
+                        <div className="footer-logo">
+                            <img src={logo} alt="Tàksha" />
+                            <span>Carving ideas. Crafting impacts.</span>
+                        </div>
                         <p>An editorial journal exploring art, technology, culture, and the currents molding our generation.</p>
                     </div>
                     <div className="footer-column">
@@ -253,7 +260,7 @@ function SingleBlog() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>© {new Date().getFullYear()} Meridian Magazine. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} Tàksha Magazine. All rights reserved.</p>
                     <p>Designed for responsive web viewports.</p>
                 </div>
             </footer>
