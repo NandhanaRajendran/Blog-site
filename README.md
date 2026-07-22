@@ -54,7 +54,6 @@ A full-stack blogging platform built using the **MERN Stack (MongoDB, Express.js
 Blog-Platform/
 ├── client/
 ├── server/
-├── uploads/
 └── README.md
 ```
 
